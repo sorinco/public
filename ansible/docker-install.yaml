@@ -2,7 +2,7 @@
 - hosts: all
   become: true
   vars:
-    container_count: 3
+    container_count: 1
     default_container_name: ubuntu
     default_container_image: ubuntu
     default_container_command: sleep 1
@@ -59,3 +59,8 @@
         command: "{{ default_container_command }}"
         state: present
       with_sequence: count={{ container_count }}
+
+    - name: Ensure group "docker" exists
+      ansible.builtin.group:
+        name: docker
+        state: present
