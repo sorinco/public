@@ -14,11 +14,10 @@
       copy:
         src: /etc/semaphore/dockers/{{ project }}/{{ item }}
         dest: /dockers/{{ project }}/{{ item }}
-    # use files parameter to use multiple docker-compose.yml files
-    - name: deploy Docker Compose stack
-      community.docker.docker_compose:
-        project_src: /dockers/{{ project }}/{{ item }}
-    - name: Show results
-      ansible.builtin.debug:
-        var: output
+#    - name: deploy Docker Compose stack
+#      community.docker.docker_compose:
+#        project_src: /dockers/{{ project }}/{{ item }}
+#    - name: Show results
+#      ansible.builtin.debug:
+#        var: output
         
