@@ -5,6 +5,11 @@
     project: traefik
     item: docker-compose.yml
   tasks:
+    - name: Create a directory if it does not exist
+    ansible.builtin.file:
+      path: /dockers/{{ project }}
+      state: directory
+      mode: '0755'
     - name: copy Docker Compose files
       copy:
         src: /inventory/{{ project }}/{{ item }}
