@@ -16,7 +16,8 @@
       copy:
         src: /etc/semaphore/dockers/{{ project }}/{{ item }}
         dest: /dockers/{{ project }}/
-       with_items:
+        mode: '755'
+      with_items:
         - docker-compose.yml
         - traefik.yml
         - config.yml
