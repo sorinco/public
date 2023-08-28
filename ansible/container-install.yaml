@@ -12,6 +12,11 @@
         src: /etc/semaphore/dockers/{{ container }}/docker-compose.yml
         dest: /dockers/{{ container }}/
         mode: '755'
+    - name: Replace old hostname with new hostname (requires Ansible >= 2.4)
+      ansible.builtin.replace:
+        path: /dockers/{{ container }}/docker-compose.yml
+        regexp: "##container##"
+        replace: "{{ container }}"
     - name: deploy Docker Compose stack
       community.docker.docker_compose:
         project_src: /dockers/{{ container }}
