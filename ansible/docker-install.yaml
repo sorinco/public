@@ -60,7 +60,12 @@
         state: present
       with_sequence: count={{ container_count }}
 
-    - name: Ensure group "docker" exists
-      ansible.builtin.group:
+    - name: Add docker group
+      group:
         name: docker
         state: present
+    - name: Add a user to a docker group 
+      user:
+        name: $USER
+        groups: docker
+        append: yes
