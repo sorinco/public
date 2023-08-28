@@ -3,11 +3,7 @@
   become: true
   vars:
     user: parallels
-    container_count: 1
-    default_container_name: ubuntu
-    default_container_image: ubuntu
-    default_container_command: sleep 1
-
+    
   tasks:
     - name: Install aptitude
       apt:
@@ -54,27 +50,31 @@
       pip:
         name: docker
 
-    - name: Pull default Docker image
-      community.docker.docker_image:
-        name: "{{ default_container_image }}"
-        source: pull
-
-    - name: Create default containers
-      community.docker.docker_container:
-        name: "{{ default_container_name }}{{ item }}"
-        image: "{{ default_container_image }}"
-        command: "{{ default_container_command }}"
-        state: present
-      with_sequence: count={{ container_count }}
-
     - name: Add docker group
       group:
         name: docker
         state: present
+
     - name: Add a user to a docker group 
       user:
         name: "{{ user }}"
         groups: docker
         append: yes
+
+    - name: Install UFW firewall
+      apt: name=ufw update_cache=yes state=latest
+    - name: Allow UFW ports
+      community.general.ufw:
+        rule: allow
+        port: '{{ item }}'
+      loop:
+        - 22
+        - 80
+        - 443
+    - name: Enable UFW
+      community.general.ufw:
+        state: enabled
+        policy: deny
+
     - name: Unconditionally reboot the machine with all defaults
       reboot:
