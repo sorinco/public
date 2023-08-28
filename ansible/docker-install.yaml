@@ -43,6 +43,12 @@
         name: docker-ce
         state: latest
         update_cache: true
+        
+    - name: Update apt and install docker-compose
+      apt:
+        name: docker-compose
+        state: latest
+        update_cache: true
 
     - name: Install Docker Module for Python
       pip:
