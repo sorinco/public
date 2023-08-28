@@ -61,8 +61,14 @@
         groups: docker
         append: yes
 
+    - name: Create a network
+      community.docker.docker_network:
+        name: proxy
+
     - name: Install UFW firewall
       apt: name=ufw update_cache=yes state=latest
+    - name: Disable ipv6 on UFW
+      
     - name: Allow UFW ports
       community.general.ufw:
         rule: allow
@@ -71,9 +77,15 @@
         - 22
         - 80
         - 443
-    - name: Enable UFW
+    - name: Enable UFW Outgoing Allow
       community.general.ufw:
         state: enabled
+        direction: outgoing
+        policy: allow
+    - name: Enable UFW Incoming Deny
+      community.general.ufw:
+        state: enabled
+        direction: incoming
         policy: deny
 
     - name: Unconditionally reboot the machine with all defaults
