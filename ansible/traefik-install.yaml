@@ -3,7 +3,6 @@
   become: true
   vars:
     project: traefik
-    item: docker-compose.yml
   tasks:
     - name: Create a network
       community.docker.docker_network:
@@ -17,6 +16,13 @@
       copy:
         src: /etc/semaphore/dockers/{{ project }}/{{ item }}
         dest: /dockers/{{ project }}/{{ item }}
+        owner: root
+        group: root
+        mode: u=rw, g=rw, o=r
+       with_items:
+        - docker-compose.yml
+        - traefik.yml
+        - config.yml
 #    - name: deploy Docker Compose stack
 #      community.docker.docker_compose:
 #        project_src: /dockers/{{ project }}/{{ item }}
