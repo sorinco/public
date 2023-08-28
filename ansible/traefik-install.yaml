@@ -5,6 +5,9 @@
     project: traefik
     item: docker-compose.yml
   tasks:
+    - name: Create a network
+      community.docker.docker_network:
+        name: proxy
     - name: Create a directory if it does not exist
       ansible.builtin.file:
         path: /dockers/{{ project }}
