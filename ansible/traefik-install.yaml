@@ -9,13 +9,13 @@
         name: proxy
     - name: Create a directory if it does not exist
       ansible.builtin.file:
-        path: /dockers/{{ project }}
+        path: /dockers/traefik
         state: directory
         mode: '0755'
     - name: copy Docker Compose files
       copy:
-        src: /etc/semaphore/dockers/{{ project }}/{{ item }}
-        dest: /dockers/{{ project }}/
+        src: /etc/semaphore/dockers/traefik/{{ item }}
+        dest: /dockers/traefik/
         mode: '755'
       with_items:
         - docker-compose.yml
@@ -23,14 +23,27 @@
         - config.yml
     - name: Replace old hostname with new hostname (requires Ansible >= 2.4)
       ansible.builtin.replace:
-        path: /dockers/{{ project }}/config.yml
+        path: /dockers/traefik/config.yml
         regexp: "##domain##"
         replace: "{{ domain }}"
     - name: deploy Docker Compose stack
       community.docker.docker_compose:
-        project_src: /dockers/{{ project }}
-        project_name: "{{ project }}"
-    - name: Show results
-      ansible.builtin.debug:
-        var: output
-        
+        project_src: /dockers/traefik
+        project_name: traefik
+    - name: Create a directory if it does not exist
+      ansible.builtin.file:
+        path: /var/lib/docker/volumes/traefik_data/_data/{{ item }}
+        state: directory
+        mode: '0755'
+      with_items:
+        - certs_cloudflare
+        - certs_letsencrypt
+        - dynamic
+    - name: Move files to volume
+      command: mv /dockers/traefik/traefik.yml /var/lib/docker/volumes/traefik_data/_data/traefik.yml
+      command: mv /dockers/traefik/config.yml /var/lib/docker/volumes/traefik_data/_data/dynamic/config.yml
+    - name: Restart traefik container
+      community.docker.docker_container:
+        name: traefik
+        state: started
+        restart: true
