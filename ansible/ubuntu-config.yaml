@@ -1,0 +1,32 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+    - name: Get list of all packages
+      package_facts:
+         manager: auto
+    
+    - name: Stop and disable Snap
+      service: 
+        name: snapd.service
+        state: stopped
+        enabled: no
+      when: "'snapd' in ansible_facts.packages"
+    
+    - name: Remove Snap
+      apt:
+        name: snapd
+        state: absent
+        purge: yes
+        autoremove: yes
+      when: "'snapd' in ansible_facts.packages"
+    
+    - name: Prevent Snap installs
+      copy:
+        src: /ubuntu/nosnap.pref
+        dest: /etc/apt/preferences.d/
+        owner: root
+        group: root
+        mode: 0440
+      when: "'snapd' in ansible_facts.packages"
