@@ -26,10 +26,10 @@
         path: /dockers/{{ project }}/config.yml
         regexp: "##domain##"
         replace: "{{ domain }}"
-#    - name: deploy Docker Compose stack
-#      community.docker.docker_compose:
-#        project_src: /dockers/{{ project }}/{{ item }}
-#    - name: Show results
-#      ansible.builtin.debug:
-#        var: output
+    - name: deploy Docker Compose stack
+      community.docker.docker_compose:
+        project_src: /dockers/{{ project }}/docker-compose.yml
+    - name: Show results
+      ansible.builtin.debug:
+        var: output
         
