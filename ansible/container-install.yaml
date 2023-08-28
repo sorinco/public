@@ -1,0 +1,19 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Create project directory if it does not exist
+      ansible.builtin.file:
+        path: /dockers/{{ container }}
+        state: directory
+        mode: '0755'
+    - name: copy Docker Compose files
+      copy:
+        src: /etc/semaphore/dockers/{{ container }}/docker-compose.yml
+        dest: /dockers/{{ container }}/
+        mode: '755'
+    - name: deploy Docker Compose stack
+      community.docker.docker_compose:
+        project_src: /dockers/{{ container }}
+        project_name: "{{ container }}"
+        
