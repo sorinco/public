@@ -39,8 +39,9 @@
         - certs_cloudflare
         - certs_letsencrypt
         - dynamic
-    - name: Move files to volume
+    - name: Move traefik.yml
       command: mv /dockers/traefik/traefik.yml /var/lib/docker/volumes/traefik_data/_data/traefik.yml
+    - name: Move config.yml
       command: mv /dockers/traefik/config.yml /var/lib/docker/volumes/traefik_data/_data/dynamic/config.yml
     - name: Restart traefik container
       community.docker.docker_container:
