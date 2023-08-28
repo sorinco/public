@@ -1,8 +1,7 @@
 ---
 - hosts: all
   become: true
-  vars:
-    project: traefik
+
   tasks:
     - name: Create a network
       community.docker.docker_network:
