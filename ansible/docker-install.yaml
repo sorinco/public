@@ -3,7 +3,7 @@
   become: true
   vars:
     container_count: 3
-    default_container_name: docker
+    default_container_name: ubuntu
     default_container_image: ubuntu
     default_container_command: sleep 1
 
@@ -58,4 +58,4 @@
         image: "{{ default_container_image }}"
         command: "{{ default_container_command }}"
         state: present
-      with_sequence: count={{ container_count }}
+      with_sequence: item={{ container_count }}
