@@ -29,6 +29,7 @@
     - name: deploy Docker Compose stack
       community.docker.docker_compose:
         project_src: /dockers/{{ project }}/docker-compose.yml
+        project_name: {{ project }}
     - name: Show results
       ansible.builtin.debug:
         var: output
