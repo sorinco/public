@@ -54,8 +54,8 @@
 
     - name: Create default containers
       community.docker.docker_container:
-        name: "{{ default_container_name }}{{ item }}"
+        name: "{{ default_container_name }}{{ count }}"
         image: "{{ default_container_image }}"
         command: "{{ default_container_command }}"
         state: present
-      with_sequence: item={{ container_count }}
+      with_sequence: count={{ container_count }}
