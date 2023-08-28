@@ -13,7 +13,8 @@
     - name: deploy Docker Compose stack
       community.docker.docker_compose:
         project_src: /dockers/{{ project }}
-        files: {{ item }}
+        files:
+          - {{ item }}
     - name: Show results
       ansible.builtin.debug:
         var: output
