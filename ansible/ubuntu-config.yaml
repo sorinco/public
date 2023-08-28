@@ -12,7 +12,7 @@
         name: snapd.service
         state: stopped
         enabled: no
-#      when: "'snapd' in ansible_facts.packages"
+      when: "'snapd' in ansible_facts.packages"
     
     - name: Remove Snap
       apt:
@@ -20,7 +20,7 @@
         state: absent
         purge: yes
         autoremove: yes
-#      when: "'snapd' in ansible_facts.packages"
+      when: "'snapd' in ansible_facts.packages"
     
     - name: Prevent Snap installs
       copy:
@@ -29,4 +29,4 @@
         owner: root
         group: root
         mode: 0440
-#      when: "'snapd' in ansible_facts.packages"
+      when: "'snapd' in ansible_facts.packages"
