@@ -21,6 +21,11 @@
         - docker-compose.yml
         - traefik.yml
         - config.yml
+    - name: Replace old hostname with new hostname (requires Ansible >= 2.4)
+      ansible.builtin.replace:
+        path: /etc/semaphore/dockers/{{ project }}/traefik.yml
+        regexp: '(\s+)traefik\.xxx\.ro(\s+.*)?$'
+        replace: '\traefik.{{domain}}\2'
 #    - name: deploy Docker Compose stack
 #      community.docker.docker_compose:
 #        project_src: /dockers/{{ project }}/{{ item }}
