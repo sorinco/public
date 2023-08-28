@@ -15,8 +15,7 @@
     - name: copy Docker Compose files
       copy:
         src: /etc/semaphore/dockers/{{ project }}/{{ item }}
-        dest: /dockers/{{ project }}/{{ item }}
-        mode: '775'
+        dest: /dockers/{{ project }}/
        with_items:
         - docker-compose.yml
         - traefik.yml
