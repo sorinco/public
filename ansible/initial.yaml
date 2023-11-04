@@ -68,23 +68,23 @@
 #        rule: allow
 #        port: "{{ ssh_port }}"
 
-    - name: Enable UFW Outgoing Allow
-      community.general.ufw:
-        state: enabled
-        direction: outgoing
-        policy: allow
+#    - name: Enable UFW Outgoing Allow
+#      community.general.ufw:
+#        state: enabled
+#        direction: outgoing
+#        policy: allow
 
-    - name: Enable UFW Incoming Deny
-      community.general.ufw:
-        state: enabled
-        direction: incoming
-        policy: deny
+#    - name: Enable UFW Incoming Deny
+#      community.general.ufw:
+#        state: enabled
+#        direction: incoming
+#        policy: deny
 
-    - name: Brute-force attempt protection for SSH
-      community.general.ufw:
-        rule: limit
-        port: "{{ ssh_port }}"
-        proto: tcp
+#    - name: Brute-force attempt protection for SSH
+#      community.general.ufw:
+#        rule: limit
+#        port: "{{ ssh_port }}"
+#        proto: tcp
 
     - name: Remove dependencies that are no longer required
       ansible.builtin.apt:
