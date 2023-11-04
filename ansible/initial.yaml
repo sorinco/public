@@ -57,6 +57,12 @@
         regexp: '^#Port 22'
         line: 'Port "{{ ssh_port }}"'
 
+    - name: Disable ipv6 on UFW
+      ansible.builtin.replace:
+        path: /etc/default/ufw
+        regexp: "IPV6=yes"
+        replace: "IPV6=no"
+
     - name: Allow UFW ports
       community.general.ufw:
         rule: allow
