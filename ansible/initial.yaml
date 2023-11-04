@@ -1,5 +1,5 @@
 - name: Initial server setup tasks
-  hosts: initial
+  hosts: all
   become: true
 #  remote_user: root
 #  vars_files:
@@ -84,7 +84,7 @@
         name: ssh
 
 - name: Rebooting hosts after initial setup
-  hosts: initial
+  hosts: all
   port: "{{ ssh_port }}"
 #  remote_user: "{{ create_user }}"
   become: true
