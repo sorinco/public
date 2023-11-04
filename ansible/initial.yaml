@@ -95,17 +95,5 @@
         state: restarted
         name: ssh
 
-- name: Rebooting hosts after initial setup
-  hosts: all
-  port: "{{ ssh_port }}"
-#  remote_user: "{{ create_user }}"
-  become: true
-#  vars_files:
-#    - vars/default.yml
-#    - secret
-#  vars:
-#    ansible_become_pass: "{{ password }}"
-
-  tasks:
     - name: Reboot all hosts
       ansible.builtin.reboot:
