@@ -57,22 +57,28 @@
         regexp: '^#Port 22'
         line: 'Port "{{ ssh_port }}"'
 
-    - name: UFW - Allow SSH connections
+    - name: Allow UFW ports
       community.general.ufw:
         rule: allow
-        port: "{{ ssh_port }}"
+        port: '{{ ssh_port }}'
+
+    - name: Enable UFW Outgoing Allow
+      community.general.ufw:
+        state: enabled
+        direction: outgoing
+        policy: allow
+
+    - name: Enable UFW Incoming Deny
+      community.general.ufw:
+        state: enabled
+        direction: incoming
+        policy: deny
 
     - name: Brute-force attempt protection for SSH
       community.general.ufw:
         rule: limit
         port: "{{ ssh_port }}"
         proto: tcp
-
-    - name: UFW - Deny other incoming traffic and enable UFW
-      community.general.ufw:
-        state: enabled
-        policy: deny
-        direction: incoming
 
     - name: Remove dependencies that are no longer required
       ansible.builtin.apt:
